@@ -1,0 +1,19 @@
+{
+  "name": "canvaslib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "HtmlCanvasLib.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antheboets/canvas-lib.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antheboets/canvas-lib/issues"
+  },
+  "homepage": "https://github.com/antheboets/canvas-lib#readme"
+}
