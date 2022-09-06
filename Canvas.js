@@ -34,12 +34,22 @@ function animationLoop(){
                 */
             })
         }
+        if(getCanvas().drawFps){
+            let sinceStart = getCanvas().now - getCanvas().startTime
+            //console.log(getCanvas().now, getCanvas().startTime, getCanvas().frameCount)
+            //console.log(sinceStart)
+            let currentFps = Math.round(1000 / (sinceStart / ++getCanvas().frameCount) * 100) / 100
+            //draw pfs on canvas
+            getCanvas().ctx.font = "16px Arial"
+            getCanvas().ctx.strokeStyle = "grey"
+            getCanvas().ctx.fillStyle  = "grey"
+            getCanvas().ctx.fillRect(10,10,90,30)
+            //console.log(`${currentFps}/${getCanvas().fps}fps`)
+            getCanvas().ctx.strokeStyle = "black"
+            getCanvas().ctx.fillStyle  = "black"
+            getCanvas().ctx.fillText(`${currentFps}/${getCanvas().fps}fps`,20,30)
+        }
     }
-    /*
-    if(getCanvas().drawFps){
-        //draw pfs on canvas
-    }
-    */
     window.requestAnimationFrame(animationLoop)
 }
 
@@ -55,8 +65,10 @@ export class Canvas{
         this.fps = 60
         this.fpsInterval = 1000 / this.fps
         this.then = 0
+        this.startTime = 0
         this.elapsed = 0
         this.drawFps = false
+        this.frameCount = 0
         this.startAnimationtest = false
         this.canvasElement = document.createElement("canvas")
         this.canvasElement.width = window.innerWidth
@@ -127,6 +139,7 @@ export class Canvas{
             layer.start()
         })
         this.then = Date.now()
+        this.startTime = this.then
         this.startAnimationtest = true
         //
         animationLoop()
