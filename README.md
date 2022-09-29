@@ -4,7 +4,7 @@ This library adds a wrapper around the HTML canvas for easier use of adding imag
 ```sh
 npm install antheboets/canvas-lib
 ```
-You can also add the dev version which may have more features but can be less stable,
+You can also add the dev version which may have more features but can be less stable.
 ```sh
 npm install antheboets/canvas-lib:dev
 ```
@@ -17,7 +17,7 @@ Initialize the canvas object.
 ```javascript
 const canvas = getCanvas()
 ```
-Add content
+Add content.
 ```javascript
 canvas.setBackgroundVideo("./background.mp4")
 canvas.addImageLayerFromList(["./layer1.png","./layer2.png","./layer3.png"])
