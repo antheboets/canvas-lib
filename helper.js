@@ -1,7 +1,7 @@
-export function getFpsString(currentFps = 0,getMaxFps = 0){
+export function formatFraction(current = 0,max = 0,spacingChar = " "){
     let spacing = ""
-    for(let i =0; i + currentFps.toString().length < getMaxFps.toString().length;i++){
-        spacing += " "
+    for(let i =0; i + current.toString().length < max.toString().length;i++){
+        spacing += spacingChar
     }
-    return `${spacing}${currentFps}/${getMaxFps}fps`
+    return `${spacing}${current}/${max}fps`
 }

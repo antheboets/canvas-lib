@@ -1,7 +1,7 @@
 //import ImageLayer from './imageLayer.js'
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
-import {getFpsString} from './helper.js'
+import {formatFraction} from './helper.js'
 
 //rework so it is a class methode of Canvas
 function animationLoop(){
@@ -50,7 +50,7 @@ function animationLoop(){
             getCanvas().ctx.fillRect(10,10,100,50)
             getCanvas().ctx.strokeStyle = "black"
             getCanvas().ctx.fillStyle  = "black"
-            getCanvas().ctx.fillText(getFpsString(currentFps,getCanvas().fps),20,30)
+            getCanvas().ctx.fillText(formatFraction(currentFps,getCanvas().fps),20,30)
             getCanvas().ctx.fillText(`${sinceStart/1000}sec`,20,50)
         }
     }
