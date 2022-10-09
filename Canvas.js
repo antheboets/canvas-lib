@@ -1,4 +1,4 @@
-import ImageLayer from './imageLayer.js'
+//import ImageLayer from './imageLayer.js'
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
 
@@ -24,10 +24,13 @@ function animationLoop(){
             //layers
             getCanvas().layers.forEach(layer => {
                 //image layers
+                layer.currentContent.draw(getCanvas().ctx,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
+                /*
                 if(layer.constructor.name === "ImageLayer"){
                     //add more attributes
                     getCanvas().ctx.drawImage(layer.currentContent.contentObj,0,0,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
                 }
+                */
                 /*
                 else if(layer.constructor.name === ""){
                 }
@@ -97,16 +100,30 @@ export class Canvas{
         })
         this.backgroundVideo.src = contentPath
     }
+    //
+    getLayer(pos){
+        //check input
+        return this.layers[pos]
+    }
+    //
     getLayers(){
         return this.layers.map((layer)=>{return layer.getLayer()})
     }
     #addLayer(layer){
         this.layers.push(layer)
     }
-    addImageLayerFromList(listOfLayers, timeInterval = 2){
+    addLayerFromList(listOfLayers){
+        const newLayer = new Layer()
+        //check for valid input
+        //check if string, obj, list of obj, string
         if(Array.isArray(listOfLayers)){
             if(listOfLayers.length !== 0){
-                //["image1.png","image2.png"]
+                
+                listOfLayers.forEach((content)=>{
+                    newLayer.addImageFromObj(content)
+                })
+                
+                /*
                 if(typeof listOfLayers[0] === 'string' || listOfLayers[0] instanceof String){
                     const newLayer = new ImageLayer()
                     listOfLayers.forEach(element => {
@@ -122,8 +139,13 @@ export class Canvas{
                     })
                     this.#addLayer(newLayer)
                 }
+                */
             }
         }
+        this.#addLayer(newLayer)
+    }
+    addNewLayer(){
+        this.#addLayer(new Layer())
     }
     removeLayerContent(layer,content){
         this.layers[layer].removeLayerContent(content)

@@ -1,3 +1,5 @@
+import ImageContent from "./ImageContent"
+
 export class Layer{
     constructor(){
         this.content = []
@@ -35,11 +37,43 @@ export class Layer{
             this.currentContent = this.content[0]
         }
     }
+    //https://stackoverflow.com/questions/1280263/changing-the-interval-of-setinterval-while-its-running
     start(){
         this.#checkPos()
-        setInterval(()=>{
+        const internalCallback = ()=>{
             this.#tick()
-        }, this.currentContent.time * 1000)
+            let test = this.currentContent.GetTimeoutTime()
+            console.log(this.currentContent,test)
+            window.setTimeout(internalCallback,test)
+            
+        }
+        const testTimedeletemij = this.currentContent.GetTimeoutTime()
+        console.log(this.currentContent,testTimedeletemij)
+        window.setTimeout(internalCallback,testTimedeletemij)
+    }
+    addImageFromObj(obj){
+        this.#addImageContent(obj.path,obj.time)
+    }
+    #addImageContent(uri,time){
+        const image = new Image()
+        image.src = uri
+        let loadedPromise = new Promise((resolve, reject)=>{
+            image.onload = ()=>{
+                resolve()
+            }
+        })
+        const newContent = new ImageContent(image,loadedPromise)
+        if(Number.isInteger(time)){
+            newContent.timeoutNumber = time
+        }
+        if(time instanceof Function){
+            newContent.timeoutFunc = time
+        }
+        this.content.push(newContent)
+        //this.#checkPos()
+    }
+    addImage(settingsObject){
+
     }
 }
 export default Layer
