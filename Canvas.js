@@ -1,6 +1,7 @@
 //import ImageLayer from './imageLayer.js'
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
+import {getFpsString} from './helper.js'
 
 //rework so it is a class methode of Canvas
 function animationLoop(){
@@ -45,12 +46,12 @@ function animationLoop(){
             //draw pfs on canvas
             getCanvas().ctx.font = "16px Arial"
             getCanvas().ctx.strokeStyle = "grey"
-            getCanvas().ctx.fillStyle  = "grey"
-            getCanvas().ctx.fillRect(10,10,90,30)
-            //console.log(`${currentFps}/${getCanvas().fps}fps`)
+            getCanvas().ctx.fillStyle  = "rgba(190,190,190,0.6)"
+            getCanvas().ctx.fillRect(10,10,100,50)
             getCanvas().ctx.strokeStyle = "black"
             getCanvas().ctx.fillStyle  = "black"
-            getCanvas().ctx.fillText(`${currentFps}/${getCanvas().fps}fps`,20,30)
+            getCanvas().ctx.fillText(getFpsString(currentFps,getCanvas().fps),20,30)
+            getCanvas().ctx.fillText(`${sinceStart/1000}sec`,20,50)
         }
     }
     window.requestAnimationFrame(animationLoop)
