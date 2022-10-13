@@ -194,6 +194,9 @@ export class Canvas{
     }
     stop(){
         this.startAnimationtest = false
+        this.layers.forEach((layer)=>{
+            layer.stop()
+        })
     }
     async startAsync(){
         await this.#waitTillLoadedAsync()
