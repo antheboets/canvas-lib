@@ -23,17 +23,29 @@ export class Layer{
                 break
         }
     }
-    #tick(){
-        if(this.currentPos < this.content.length - 1){
-            this.currentPos++
-            this.currentContent = this.content[this.currentPos]
     get getMode(){
         return this.#mode
     }
+    #tick(tickHiger = true){
+        if(tickHiger){
+            if(this.currentPos < this.content.length - 1){
+                this.currentPos++
+                this.currentContent = this.content[this.currentPos]
+            }
+            else{
+                this.currentPos = 0
+                this.currentContent = this.content[0]
+            }
         }
         else{
-            this.currentPos = 0
-            this.currentContent = this.content[0]
+            if(this.currentPos > 0){
+                this.currentPos--
+                this.currentContent = this.content[this.currentPos]
+            }
+            else{
+                this.currentPos = this.content.length - 1
+                this.currentContent = this.content[0]
+            }
         }
     }
     getOnloadPromisesArray(){
