@@ -1,6 +1,7 @@
 //import ImageLayer from './imageLayer.js'
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
+import {getTypeOfFileFromPath} from './helper.js'
 
 //rework so it is a class methode of Canvas
 function animationLoop(){
