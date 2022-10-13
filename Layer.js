@@ -81,14 +81,10 @@ export class Layer{
         if(this.#mode === 'timer'){
             const internalCallback = ()=>{
                 this.#tick()
-                let test = this.currentContent.GetTimeoutTime()
-                console.log(this.currentContent,test)
-                this.#timeoutId = window.setTimeout(internalCallback,test)
+                this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
                 
             }
-            const testTimedeletemij = this.currentContent.GetTimeoutTime()
-            console.log(this.currentContent,testTimedeletemij)
-            this.#timeoutId = window.setTimeout(internalCallback,testTimedeletemij)
+            this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
         }
     }
     stop(){
