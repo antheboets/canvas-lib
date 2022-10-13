@@ -150,9 +150,15 @@ export class Canvas{
         if(Array.isArray(layerData) && typeof layerData === 'object'){
             if(layerData.length !== 0){
                 layerData.forEach((content)=>{
-                    layerObj.addImageFromObj(content)
-                })
-                
+                    //obj
+                    if(typeof content === 'object'){
+                        layerObj.addImageFromObj(content)
+                    }
+                    //string
+                    else if(typeof content === 'string' || content instanceof String){
+                        layerObj.addImageFromObj({path:content,contentType:getTypeOfFileFromPath(content)})
+                    }
+                   
                 /*
                 if(typeof listOfLayers[0] === 'string' || listOfLayers[0] instanceof String){
                     const newLayer = new ImageLayer()
@@ -170,6 +176,7 @@ export class Canvas{
                     this.#addLayer(newLayer)
                 }
                 */
+                })
             }
         }
         //obj
