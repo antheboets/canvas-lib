@@ -145,6 +145,12 @@ export class Canvas{
         }
         this.#addLayer(newLayer)
     }
+    #addObjectToLayer(layerObj, layerData){
+        //check if data is string, obj or list. List can contain strings or objs
+        if(Array.isArray(layerData) && typeof layerData === 'object'){
+            if(layerData.length !== 0){
+                layerData.forEach((content)=>{
+                    layerObj.addImageFromObj(content)
                 })
                 
                 /*
@@ -166,10 +172,22 @@ export class Canvas{
                 */
             }
         }
-        this.#addLayer(newLayer)
-    }
-    addNewLayer(){
-        this.#addLayer(new Layer())
+        //obj
+        if(typeof layerData === 'object'){
+            let contentType
+            if(layerData.contentType !== undefined){
+                contentType = layerData.contentType
+            }
+            else{
+                contentType = getTypeOfFileFromPath(layerData.path)
+            }
+            layerObj.addImageFromObj({path:layerData.path,contentType:contentType,timer:layerData.timer})
+        }
+        //string
+        if(typeof layerData === 'string' || listOfLayers instanceof String){
+            //check file type
+            layerObj.addImageFromObj({path:layerData,contentType:getTypeOfFileFromPath(layerData)})
+        }
     }
     removeLayerContent(layer,content){
         this.layers[layer].removeLayerContent(content)
