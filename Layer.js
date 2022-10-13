@@ -88,10 +88,12 @@ export class Layer{
             }
             const testTimedeletemij = this.currentContent.GetTimeoutTime()
             console.log(this.currentContent,testTimedeletemij)
-            window.setTimeout(internalCallback,testTimedeletemij)
             this.#timeoutId = window.setTimeout(internalCallback,testTimedeletemij)
         }
     }
+    stop(){
+        if(this.#mode === 'timer'){
+            clearTimeout(this.#timeoutId)
         }
     }
     addImageFromObj(obj){
