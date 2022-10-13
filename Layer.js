@@ -78,17 +78,20 @@ export class Layer{
     //https://stackoverflow.com/questions/1280263/changing-the-interval-of-setinterval-while-its-running
     start(){
         this.#checkPos()
-        if(mode === 'timer'){
+        if(this.#mode === 'timer'){
             const internalCallback = ()=>{
                 this.#tick()
                 let test = this.currentContent.GetTimeoutTime()
                 console.log(this.currentContent,test)
-                window.setTimeout(internalCallback,test)
+                this.#timeoutId = window.setTimeout(internalCallback,test)
                 
             }
             const testTimedeletemij = this.currentContent.GetTimeoutTime()
             console.log(this.currentContent,testTimedeletemij)
             window.setTimeout(internalCallback,testTimedeletemij)
+            this.#timeoutId = window.setTimeout(internalCallback,testTimedeletemij)
+        }
+    }
         }
     }
     addImageFromObj(obj){
