@@ -103,7 +103,15 @@ export class Canvas{
     }
     //
     getLayer(pos){
-        //check input
+        if(pos === undefined || pos === null){
+            return null
+        }
+        if(typeof pos !== 'number'){
+            return null
+        }
+        if(this.layers.length <= pos){
+            return null
+        }
         return this.layers[pos]
     }
     //
