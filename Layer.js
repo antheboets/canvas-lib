@@ -1,26 +1,35 @@
 import ImageContent from "./ImageContent"
 
 export class Layer{
+    #mode
+    #timeoutId
     constructor(mode = 'manual'){
         this.content = []
         this.currentPos = 0
         this.currentContent = null
-        mode(mode)
+        this.setMode = mode
+        this.#timeoutId = null
     }
-    set mode(mode){
+    set setMode(mode){
         switch(mode){
             case 'timer':
-                return 'timer'
+                this.#mode = 'timer'
+                break
             case 'manual':
-                return 'manual'
+                this.#mode = 'manual'
+                break
             default:
-                return 'manual'
+                this.#mode = 'manual'
+                break
         }
     }
     #tick(){
         if(this.currentPos < this.content.length - 1){
             this.currentPos++
             this.currentContent = this.content[this.currentPos]
+    get getMode(){
+        return this.#mode
+    }
         }
         else{
             this.currentPos = 0
