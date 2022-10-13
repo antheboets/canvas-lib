@@ -200,46 +200,5 @@ export class Canvas{
         //
         animationLoop()
     }
-    //doesnt work 'maximum call stack size exceeded'
-    #animationLoop(){
-        //check if the animation loop needs to be stoped
-        if(!this.startAnimationtest){
-            return
-        }
-        //calc elapsed time since last loop
-        this.now = Date.now()
-        this.elapsed = this.now - this.then
-        //if enough time has elapsed draw the next frame
-        console.log(this.elapsed > this.fpsInterval)
-        if(this.elapsed > this.fpsInterval){
-            //get ready for next frame by setting then = now, also adjust for fpsInterval not being multiple of
-            this.then = this.now - (this.elapsed % this.fpsInterval)
-             //clear canvas. not always needed but may fix bad pixels form previous video so clear to be safe
-            this.ctx.clearRect(0,0,this.canvasElement.width,this.canvasElement.height)
-            //only draw if loaded and ready
-            if(this.videoContainer !== undefined && this.videoContainer.ready){
-                //background video
-                this.ctx.drawImage(this.videoContainer.video,0,0,this.canvasElement.width,this.canvasElement.height)
-                //layers
-                this.layers.forEach(layer => {
-                    //image layers
-                    if(layer.constructor.name === "ImageLayer"){
-                        //add more attributes
-                        this.ctx.drawImage(layer.currentContent.contentObj,0,0,this.canvasElement.width,this.canvasElement.height)
-                    }
-                    /*
-                    else if(layer.constructor.name === ""){
-                    }
-                    */
-                })
-            }
-        }
-        /*
-        if(this.drawFps){
-            //draw pfs on canvas
-        }
-        */
-        requestAnimationFrame(animationLoop)
-    }
 }
 export default Canvas
