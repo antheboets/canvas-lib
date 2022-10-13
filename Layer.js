@@ -26,6 +26,12 @@ export class Layer{
     get getMode(){
         return this.#mode
     }
+    next(){
+        this.#tick(true)
+    }
+    previous(){
+        this.#tick(false)
+    }
     #tick(tickHiger = true){
         if(tickHiger){
             if(this.currentPos < this.content.length - 1){
