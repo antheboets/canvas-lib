@@ -121,15 +121,30 @@ export class Canvas{
     #addLayer(layer){
         this.layers.push(layer)
     }
-    addLayerFromList(listOfLayers){
+    createLayer(layerData = null){
         const newLayer = new Layer()
-        //check for valid input
-        //check if string, obj, list of obj, string
-        if(Array.isArray(listOfLayers)){
-            if(listOfLayers.length !== 0){
-                
-                listOfLayers.forEach((content)=>{
-                    newLayer.addImageFromObj(content)
+        let validInput = true
+        let foundValidType = false
+        if(layerData === undefined){
+            validInput = false
+        }
+        if(layerData === null && validInput){
+            validInput = false
+        }
+        if(Array.isArray(layerData) && typeof layerData === 'object'){
+            foundValidType = true
+        }
+        else if(typeof layerData === 'object'){
+            foundValidType = true
+        }
+        else if(typeof layerData === 'string'){
+            foundValidType = true
+        }
+        if(validInput && foundValidType){
+            this.#addObjectToLayer(newLayer,layerData)
+        }
+        this.#addLayer(newLayer)
+    }
                 })
                 
                 /*
