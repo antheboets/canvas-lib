@@ -1,6 +1,11 @@
 //import ImageLayer from './imageLayer.js'
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
+import {formatFraction} from './helper.js'
+
+function getDebugString(name = "",value=""){
+    return `${name}: ${value}`
+}
 
 //rework so it is a class methode of Canvas
 function animationLoop(){
@@ -11,6 +16,7 @@ function animationLoop(){
     //calc elapsed time since last loop
     getCanvas().now = Date.now()
     getCanvas().elapsed = getCanvas().now - getCanvas().then
+    getCanvas().elapsedFrameCount++
     //if enough time has elapsed draw the next frame
     if(getCanvas().elapsed > getCanvas().fpsInterval){
         //get ready for next frame by setting then = now, also adjust for fpsInterval not being multiple of
@@ -45,12 +51,16 @@ function animationLoop(){
             //draw pfs on canvas
             getCanvas().ctx.font = "16px Arial"
             getCanvas().ctx.strokeStyle = "grey"
-            getCanvas().ctx.fillStyle  = "grey"
-            getCanvas().ctx.fillRect(10,10,90,30)
-            //console.log(`${currentFps}/${getCanvas().fps}fps`)
+            getCanvas().ctx.fillStyle  = "rgba(190,190,190,0.8)"
+            getCanvas().ctx.fillRect(10,10,200,130)
             getCanvas().ctx.strokeStyle = "black"
             getCanvas().ctx.fillStyle  = "black"
-            getCanvas().ctx.fillText(`${currentFps}/${getCanvas().fps}fps`,20,30)
+            getCanvas().ctx.fillText(getDebugString("Fps",formatFraction(currentFps,getCanvas().fps)),20,30)
+            getCanvas().ctx.fillText(getDebugString("Start time",`${sinceStart/1000}sec`),20,50)
+            getCanvas().ctx.fillText(getDebugString("Drawn frame count",`${getCanvas().frameCount}`),20,70)
+            getCanvas().ctx.fillText(getDebugString("Total frame count",`${getCanvas().elapsedFrameCount}`),20,90)
+            getCanvas().ctx.fillText(getDebugString("Elapsed",`${getCanvas().elapsed}`),20,110)
+            getCanvas().ctx.fillText(getDebugString("Then",`${ getCanvas().then}`),20,130)
         }
     }
     window.requestAnimationFrame(animationLoop)
@@ -72,6 +82,7 @@ export class Canvas{
         this.elapsed = 0
         this.drawFps = false
         this.frameCount = 0
+        this.elapsedFrameCount = 0
         this.startAnimationtest = false
         this.canvasElement = document.createElement("canvas")
         this.canvasElement.width = window.innerWidth
@@ -161,6 +172,8 @@ export class Canvas{
             layer.start()
         })
         this.then = Date.now()
+        this.frameCount = 0
+        this.elapsedFrameCount = 0
         this.startTime = this.then
         this.startAnimationtest = true
         //
