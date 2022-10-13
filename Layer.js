@@ -117,8 +117,5 @@ export class Layer{
         this.content.push(newContent)
         //this.#checkPos()
     }
-    addImage(settingsObject){
-
-    }
 }
 export default Layer
