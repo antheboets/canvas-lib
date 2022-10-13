@@ -158,24 +158,6 @@ export class Canvas{
                     else if(typeof content === 'string' || content instanceof String){
                         layerObj.addImageFromObj({path:content,contentType:getTypeOfFileFromPath(content)})
                     }
-                   
-                /*
-                if(typeof listOfLayers[0] === 'string' || listOfLayers[0] instanceof String){
-                    const newLayer = new ImageLayer()
-                    listOfLayers.forEach(element => {
-                        newLayer.addLayerItem(element,timeInterval)
-                    })
-                    this.#addLayer(newLayer)
-                }
-                //[{path:"./image1.png",timeInterval: 30},{path:"./image2.png",timeInterval: 60}]
-                else if(Object.keys(listOfLayers[0]).includes("path") && Object.keys(listOfLayers[0]).includes("timeInterval")){
-                    const newLayer = new ImageLayer()
-                    listOfLayers.forEach(element => {
-                        newLayer.addLayerItem(element.path,element.timeInterval)
-                    })
-                    this.#addLayer(newLayer)
-                }
-                */
                 })
             }
         }
