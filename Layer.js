@@ -96,8 +96,13 @@ export class Layer{
             clearTimeout(this.#timeoutId)
         }
     }
-    addImageFromObj(obj){
-        this.#addImageContent(obj.path,obj.time)
+    addContentFormObj(obj){
+        if(true){
+            this.#addImageContent()
+        }
+        else if(true){
+            this.#addVideoCOntent()
+        }
     }
     #addImageContent(uri,time){
         const image = new Image()
@@ -116,6 +121,9 @@ export class Layer{
         }
         this.content.push(newContent)
         //this.#checkPos()
+    }
+    #addVideoContent(){
+
     }
 }
 export default Layer
