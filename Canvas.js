@@ -163,7 +163,7 @@ export class Canvas{
             layerObj.addImageFromObj({path:layerData.path,contentType:contentType,timer:layerData.timer})
         }
         //string
-        if(typeof layerData === 'string' || listOfLayers instanceof String){
+        if(typeof layerData === 'string' || layerData instanceof String){
             //check file type
             layerObj.addImageFromObj({path:layerData,contentType:getTypeOfFileFromPath(layerData)})
         }
