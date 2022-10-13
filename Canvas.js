@@ -22,20 +22,10 @@ function animationLoop(){
         if(getCanvas().videoContainer !== undefined && getCanvas().videoContainer.ready){
             //background video
             getCanvas().ctx.drawImage(getCanvas().videoContainer.video,0,0,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
-            //layers
+            //loop through all layers
             getCanvas().layers.forEach(layer => {
-                //image layers
+                //draw content from each layer
                 layer.currentContent.draw(getCanvas().ctx,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
-                /*
-                if(layer.constructor.name === "ImageLayer"){
-                    //add more attributes
-                    getCanvas().ctx.drawImage(layer.currentContent.contentObj,0,0,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
-                }
-                */
-                /*
-                else if(layer.constructor.name === ""){
-                }
-                */
             })
         }
         if(getCanvas().drawFps){
