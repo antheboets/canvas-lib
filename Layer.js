@@ -42,14 +42,10 @@ export class Layer{
         this.#checkPos()
         const internalCallback = ()=>{
             this.#tick()
-            let test = this.currentContent.GetTimeoutTime()
-            console.log(this.currentContent,test)
-            window.setTimeout(internalCallback,test)
+            window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
             
         }
-        const testTimedeletemij = this.currentContent.GetTimeoutTime()
-        console.log(this.currentContent,testTimedeletemij)
-        window.setTimeout(internalCallback,testTimedeletemij)
+        window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
     }
     addImageFromObj(obj){
         this.#addImageContent(obj.path,obj.time)
