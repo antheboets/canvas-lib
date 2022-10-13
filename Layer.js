@@ -1,10 +1,21 @@
 import ImageContent from "./ImageContent"
 
 export class Layer{
-    constructor(){
+    constructor(mode = 'manual'){
         this.content = []
         this.currentPos = 0
         this.currentContent = null
+        mode(mode)
+    }
+    set mode(mode){
+        switch(mode){
+            case 'timer':
+                return 'timer'
+            case 'manual':
+                return 'manual'
+            default:
+                return 'manual'
+        }
     }
     #tick(){
         if(this.currentPos < this.content.length - 1){
@@ -40,16 +51,18 @@ export class Layer{
     //https://stackoverflow.com/questions/1280263/changing-the-interval-of-setinterval-while-its-running
     start(){
         this.#checkPos()
-        const internalCallback = ()=>{
-            this.#tick()
-            let test = this.currentContent.GetTimeoutTime()
-            console.log(this.currentContent,test)
-            window.setTimeout(internalCallback,test)
-            
+        if(mode === 'timer'){
+            const internalCallback = ()=>{
+                this.#tick()
+                let test = this.currentContent.GetTimeoutTime()
+                console.log(this.currentContent,test)
+                window.setTimeout(internalCallback,test)
+                
+            }
+            const testTimedeletemij = this.currentContent.GetTimeoutTime()
+            console.log(this.currentContent,testTimedeletemij)
+            window.setTimeout(internalCallback,testTimedeletemij)
         }
-        const testTimedeletemij = this.currentContent.GetTimeoutTime()
-        console.log(this.currentContent,testTimedeletemij)
-        window.setTimeout(internalCallback,testTimedeletemij)
     }
     addImageFromObj(obj){
         this.#addImageContent(obj.path,obj.time)
