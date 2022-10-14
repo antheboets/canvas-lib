@@ -32,6 +32,25 @@ export class Layer{
     previous(){
         this.#tick(false)
     }
+    setContentPos(pos = 0){
+        if(pos === undefined || pos === null){
+            return
+        }
+        if(typeof pos !== 'number'){
+            return
+        }
+        if(pos < this.content.length - 1 ){
+            return
+        }
+        if(this.#mode === 'timer'){
+            this.#stopTimer()
+        }
+        this.currentPos = pos
+        this.currentContent = this.content[this.currentPos]
+        if(this.#mode === 'timer'){
+            this.#startTimer()
+        }
+    }
     #tick(tickHiger = true){
         if(tickHiger){
             if(this.currentPos < this.content.length - 1){
