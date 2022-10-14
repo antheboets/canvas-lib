@@ -90,6 +90,8 @@ export class Layer{
             this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
             
         }
+        this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
+    }
     #stopTimer(){
         clearTimeout(this.#timeoutId)
     }
