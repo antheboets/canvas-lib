@@ -79,11 +79,9 @@ export class Layer{
     start(){
         this.#checkPos()
         if(this.#mode === 'timer'){
-            const internalCallback = ()=>{
-                this.#tick()
-                this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
-                
-            }
+            this.#startTimer()
+        }
+    }
     #startTimer(){
         const internalCallback = ()=>{
             this.#tick()
