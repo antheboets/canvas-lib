@@ -84,12 +84,18 @@ export class Layer{
                 this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
                 
             }
+    #startTimer(){
+        const internalCallback = ()=>{
+            this.#tick()
             this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
+            
         }
+    #stopTimer(){
+        clearTimeout(this.#timeoutId)
     }
     stop(){
         if(this.#mode === 'timer'){
-            clearTimeout(this.#timeoutId)
+            this.#stopTimer()
         }
     }
     addContentFormObj(obj){
