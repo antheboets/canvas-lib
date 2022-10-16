@@ -119,10 +119,10 @@ export class Layer{
     }
     addContentFormObj(obj){
         switch(obj.contentType){
-            case'Image':
+            case'image':
                 this.#addImageContent(obj)
             break
-            case 'Video':
+            case 'video':
                 this.#addVideoContent(obj)
             break
             default:
