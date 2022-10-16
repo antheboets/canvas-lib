@@ -1,7 +1,7 @@
-//import ImageLayer from './imageLayer.js'
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
-import {getTypeOfFileFromPath,formatFraction} from './helper.js'
+import {getTypeOfFileFromPath,formatFraction,mergeTwoObjects} from './helper.js'
+import {ContentFactory} from './Factory.js'
 
 function getDebugString(name = "",value=""){
     return `${name}: ${value}`
