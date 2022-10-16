@@ -152,6 +152,7 @@ export class Canvas{
                 layerData.forEach((content)=>{
                     //obj
                     if(typeof content === 'object'){
+                        content.contentType = getTypeOfFileFromPath(content.path)
                         layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),content))
                     }
                     //string
