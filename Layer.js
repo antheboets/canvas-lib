@@ -129,20 +129,20 @@ export class Layer{
             break
         }
     }
-    #addImageContent(uri,time){
+    #addImageContent(obj){
         const image = new Image()
-        image.src = uri
+        image.src = obj.path
         let loadedPromise = new Promise((resolve, reject)=>{
             image.onload = ()=>{
                 resolve()
             }
         })
         const newContent = new ImageContent(image,loadedPromise)
-        if(Number.isInteger(time)){
-            newContent.timeoutNumber = time
+        if(Number.isInteger(obj.time)){
+            newContent.timeoutNumber = obj.time
         }
-        if(time instanceof Function){
-            newContent.timeoutFunc = time
+        if(obj.time instanceof Function){
+            newContent.timeoutFunc = obj.time
         }
         this.content.push(newContent)
     }
