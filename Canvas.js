@@ -152,15 +152,16 @@ export class Canvas{
                 layerData.forEach((content)=>{
                     //obj
                     if(typeof content === 'object'){
-                        layerObj.addImageFromObj(content)
+                        layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),content))
                     }
                     //string
                     else if(typeof content === 'string' || content instanceof String){
-                        layerObj.addImageFromObj({path:content,contentType:getTypeOfFileFromPath(content)})
+                        layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),{path:content,contentType:getTypeOfFileFromPath(content)}))
                     }
                 })
             }
         }
+        //check for layer config object
         //obj
         if(typeof layerData === 'object'){
             let contentType
@@ -170,12 +171,12 @@ export class Canvas{
             else{
                 contentType = getTypeOfFileFromPath(layerData.path)
             }
-            layerObj.addImageFromObj({path:layerData.path,contentType:contentType,timer:layerData.timer})
+            layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),{path:layerData.path,contentType:contentType,timer:layerData.timer}))
         }
         //string
         if(typeof layerData === 'string' || layerData instanceof String){
             //check file type
-            layerObj.addImageFromObj({path:layerData,contentType:getTypeOfFileFromPath(layerData)})
+            layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),{path:layerData,contentType:getTypeOfFileFromPath(layerData)}))
         }
     }
     removeLayerContent(layer,content){
