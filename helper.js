@@ -23,3 +23,7 @@ export function formatFraction(current = 0,max = 0,spacingChar = " "){
     }
     return `${spacing}${current}/${max}fps`
 }
+//https://attacomsian.com/blog/javascript-merge-objects
+export function mergeTwoObjects(obj1,obj2){
+    return {...obj1,...obj2}
+}
