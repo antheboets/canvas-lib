@@ -118,11 +118,15 @@ export class Layer{
         }
     }
     addContentFormObj(obj){
-        if(true){
-            this.#addImageContent()
-        }
-        else if(true){
-            this.#addVideoCOntent()
+        switch(obj.contentType){
+            case'Image':
+                this.#addImageContent(obj)
+            break
+            case 'Video':
+                this.#addVideoCOntent(obj)
+            break
+            default:
+            break
         }
     }
     #addImageContent(uri,time){
