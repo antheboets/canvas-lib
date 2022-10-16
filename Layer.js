@@ -123,7 +123,7 @@ export class Layer{
                 this.#addImageContent(obj)
             break
             case 'Video':
-                this.#addVideoCOntent(obj)
+                this.#addVideoContent(obj)
             break
             default:
             break
