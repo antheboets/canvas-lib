@@ -12,6 +12,8 @@ export function getTypeOfFileFromPath(path=""){
             return 'audio'
         case 'png':
             return 'image'
+        case 'jpg':
+            return 'image'
         default:
             return 'none'
     }
