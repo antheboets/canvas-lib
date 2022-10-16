@@ -145,7 +145,6 @@ export class Layer{
             newContent.timeoutFunc = time
         }
         this.content.push(newContent)
-        //this.#checkPos()
     }
     #addVideoContent(){
 
