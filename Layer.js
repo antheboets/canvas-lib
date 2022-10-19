@@ -39,7 +39,7 @@ export class Layer{
         if(typeof pos !== 'number'){
             return
         }
-        if(pos < this.content.length - 1 ){
+        if(pos >= this.content.length){
             return
         }
         if(this.#mode === 'timer'){
