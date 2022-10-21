@@ -9,6 +9,7 @@ export class Layer{
         this.currentContent = null
         this.setMode = mode
         this.#timeoutId = null
+        this.timerActive = false
     }
     set setMode(mode){
         switch(mode){
@@ -102,15 +103,20 @@ export class Layer{
         }
     }
     #startTimer(){
-        const internalCallback = ()=>{
-            this.#tick()
+        if(!this.timerActive){
+            const internalCallback = ()=>{
+                this.#tick()
+                this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
+            }
             this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
-            
+            this.timerActive = true
         }
-        this.#timeoutId = window.setTimeout(internalCallback,this.currentContent.GetTimeoutTime())
     }
     #stopTimer(){
-        clearTimeout(this.#timeoutId)
+        if(this.#timeoutId !== null){
+            clearTimeout(this.#timeoutId)
+            this.timerActive = false
+        }
     }
     stop(){
         if(this.#mode === 'timer'){
