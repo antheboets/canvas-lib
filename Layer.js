@@ -10,6 +10,7 @@ export class Layer{
         this.setMode = mode
         this.#timeoutId = null
         this.timerActive = false
+        this.loopThroughContent = true
     }
     set setMode(mode){
         switch(mode){
@@ -58,7 +59,7 @@ export class Layer{
                 this.currentPos++
                 this.currentContent = this.content[this.currentPos]
             }
-            else{
+            else if(this.loopThroughContent){
                 this.currentPos = 0
                 this.currentContent = this.content[0]
             }
@@ -68,7 +69,7 @@ export class Layer{
                 this.currentPos--
                 this.currentContent = this.content[this.currentPos]
             }
-            else{
+            else if(this.loopThroughContent){
                 this.currentPos = this.content.length - 1
                 this.currentContent = this.content[0]
             }
