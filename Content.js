@@ -200,5 +200,53 @@ export class Content{
         return true
     }
     */
+    set setXPos(xPos){
+        this.x.setCoordinate(xPos)
+        /*
+        if(this.#isPercent(xPos)){
+            console.log("test1")
+            this.#xPos = Math.round(convertPercent(xPos) * getCanvas().canvasElement.width)
+            this.#xPercent = true
+        }
+        else{
+            console.log("test2")
+            this.#xPos = xPos
+            this.#xPercent = false
+        }
+        */
+    }
+    get getXPos(){
+        return this.x.getCoordinate
+    }
+    set setYPos(yPos){
+        this.y.setCoordinate(yPos)
+        /*
+        if(this.#isPercent(yPos)){
+            this.#yPos = Math.round(convertPercent(yPos) * getCanvas().canvasElement.height)
+            this.#yPercent = true
+        }
+        else{
+            this.#yPos = yPos
+            this.#yPercent = false
+        }
+        */
+    }
+    get getYPos(){
+        return this.y.getCoordinate
+    }
+    /*
+    set setXPercent(xPercent){
+        this.#xPercent = xPercent
+    }
+    get getXPercent(){
+        return this.#xPercent
+    }
+    set setYPercent(yPercent){
+        this.#yPercent = yPercent
+    }
+    get getYPercent(){
+        return this.#yPercent
+    }
+    */
 }
 export default Content
