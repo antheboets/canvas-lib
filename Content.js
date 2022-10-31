@@ -1,3 +1,8 @@
+import getCanvas from './CanvasSingleton.js'
+import {convertPercent} from './helper.js'
+import AxisCoordinate from './AxisCoordinate.js'
+import Size from './Size.js'
+
 const DefaultTimeoutTime = (2 * 1000) + 978
 
 export class Content{
