@@ -6,15 +6,45 @@ import Size from './Size.js'
 const DefaultTimeoutTime = (2 * 1000) + 978
 
 export class Content{
-    constructor(obj,loadedPromise){
+    /*
+    #height
+    #width
+    #widthMode
+    #heightMode
+    #nativeHeight
+    #nativeWidth
+    */
+    /*
+    #xPos
+    #xPercent
+    #yPos
+    #yPercent
+    */
+    constructor(obj,loadedPromise,options){
         this.contentObj = obj
         this.loadedPromise = loadedPromise
         this.timeoutFunc = null
         this.timeoutNumber = 0
-        this.xPos = 0
-        this.yPos = 0
-        this.height = 0
-        this.width = 0
+        this.x = new AxisCoordinate(options.x,()=>{return getCanvas().canvasElement.width})
+        this.y = new AxisCoordinate(options.y,()=>{return getCanvas().canvasElement.height})
+        this.height = new Size(options.height,options.heightMode,()=>{return getCanvas().canvasElement.height})
+        this.width = new Size(options.width,options.widthMode,()=>{return getCanvas().canvasElement.width})
+        /*
+        this.setXPercent = false
+        this.setYPercent = false
+        this.setXPos = options.x
+        this.setYPos = options.y
+        */
+        /*
+        this.useCanvasHeight = false
+        this.useCanvasWidth = false
+        this.setNativeWidth = 0
+        this.setMativeHeight = 0
+        this.setHeightMode = options.heightMode
+        this.setWidthMode = options.widthMode
+        this.setHeight = options.height
+        this.setWidth = options.width
+        */
     }
     GetTimeoutTime(){
         if(this.timeoutFunc !== null){
