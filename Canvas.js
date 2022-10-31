@@ -209,7 +209,6 @@ export class Canvas{
     #canvasSizeUpdate(){
         this.layers.forEach((layer)=>{
             layer.content.forEach((content)=>{
-                //console.log(content.height.isPercent,content.width.isPercent,content.x.isPercent,content.y.isPercent,content)
                 if(content.height.isPercent){
                     content.height.updateSize(this.canvasElement.height)
                 }
@@ -217,12 +216,9 @@ export class Canvas{
                     content.width.updateSize(this.canvasElement.width)
                 }
                 if(content.x.isPercent){
-                    //console.log(content.x.getCoordinateValue,Math.round(convertPercent(content.x.getCoordinate) * this.canvasElement.width))
                     content.x.updateAxis(this.canvasElement.width)
-                    //content.setXPos = Math.round(convertPercent(content.getXPos) * this.canvasElement.width)
                 }
                 if(content.y.isPercent){
-                    //console.log(content.y.getCoordinateValue,Math.round(convertPercent(content.y.getCoordinate) * this.canvasElement.height))
                     content.y.updateAxis(this.canvasElement.height)
                 }
             })
