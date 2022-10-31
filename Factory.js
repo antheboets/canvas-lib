@@ -6,7 +6,9 @@ export function ContentFactory(){
         x:0,
         y:0,
         height:0,
-        widht:0,
+        heightMode:"canvasSize",
+        width:0,
+        widthMode:"canvasSize",
         time:0
     }
 }
