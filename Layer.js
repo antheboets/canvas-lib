@@ -141,10 +141,13 @@ export class Layer{
         image.src = obj.path
         let loadedPromise = new Promise((resolve, reject)=>{
             image.onload = ()=>{
+                //add native size
+                newContent.width.setNativeSize = image.width
+                newContent.height.setNativeSize  = image.height
                 resolve()
             }
         })
-        const newContent = new ImageContent(image,loadedPromise)
+        const newContent = new ImageContent(image,loadedPromise,obj)
         if(Number.isInteger(obj.time)){
             newContent.timeoutNumber = obj.time
         }
