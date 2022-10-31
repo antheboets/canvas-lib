@@ -1,12 +1,11 @@
 import Content from './Content.js'
 
 export class ImageContent extends Content{
-    constructor(url,loadedPromise){
-        super(url,loadedPromise)
+    constructor(url,loadedPromise,obj){
+        super(url,loadedPromise,obj)  
     }
-    draw(ctx,canvasWidth = 0,canvasHeight = 0){
-        ctx.drawImage(this.contentObj,0,0,canvasWidth,canvasHeight)
+    draw(ctx){
+        ctx.drawImage(this.contentObj,this.getXPos,this.getYPos,this.getWidth,this.getHeight)
     }
-
 }
 export default ImageContent
