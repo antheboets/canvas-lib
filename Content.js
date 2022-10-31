@@ -1,5 +1,4 @@
 import getCanvas from './CanvasSingleton.js'
-import {convertPercent} from './helper.js'
 import AxisCoordinate from './AxisCoordinate.js'
 import Size from './Size.js'
 
@@ -28,7 +27,6 @@ export class Content{
         }
         return DefaultTimeoutTime
     }
-    draw(ctx,canvasWidth = 0,canvasHeight = 0){}
     set setHeight(height){
        this.height.setSize = height
     }
