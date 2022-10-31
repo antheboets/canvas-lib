@@ -29,3 +29,19 @@ export function formatFraction(current = 0,max = 0,spacingChar = " "){
 export function mergeTwoObjects(obj1,obj2){
     return {...obj1,...obj2}
 }
+export function convertPercent(percent = "100%"){
+    if(percent === undefined || percent === null){
+        return 1
+    }
+    if(typeof percent !== 'string'){
+        return 1
+    }
+    if(percent.slice(-1) !== '%'){
+        return 1
+    }
+    let number = Number(percent.slice(0,percent.length -1))
+    if(isNaN(number)){
+        return 1
+    }
+    return number / 100
+}
