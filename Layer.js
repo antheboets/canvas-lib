@@ -1,5 +1,3 @@
-import ImageContent from "./ImageContent"
-
 export class Layer{
     #mode
     #timeoutId
@@ -96,7 +94,6 @@ export class Layer{
             this.currentContent = this.content[0]
         }
     }
-    //https://stackoverflow.com/questions/1280263/changing-the-interval-of-setinterval-while-its-running
     start(){
         this.#checkPos()
         if(this.#mode === 'timer'){
@@ -157,7 +154,7 @@ export class Layer{
         this.content.push(newContent)
     }
     #addVideoContent(){
-
+        
     }
 }
 export default Layer
