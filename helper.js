@@ -45,3 +45,19 @@ export function convertPercent(percent = "100%"){
     }
     return number / 100
 }
+export function isPercent(value){
+    if(value === undefined || value === null){
+        return false
+    }
+    if(typeof value !== 'string'){
+        return false
+    }
+    if(value.slice(-1) !== '%'){
+        return false
+    }
+    let number = Number(value.slice(0,value.length -1))
+    if(number === NaN){
+        return false
+    }
+    return true
+}
