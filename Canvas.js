@@ -1,6 +1,12 @@
-import ImageLayer from './imageLayer.js'
+
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
+import {getTypeOfFileFromPath,formatFraction,mergeTwoObjects,convertPercent} from './helper.js'
+import {ContentFactory} from './Factory.js'
+
+function getDebugString(name = "",value=""){
+    return `${name}: ${value}`
+}
 
 //rework so it is a class methode of Canvas
 function animationLoop(){
@@ -11,6 +17,7 @@ function animationLoop(){
     //calc elapsed time since last loop
     getCanvas().now = Date.now()
     getCanvas().elapsed = getCanvas().now - getCanvas().then
+    getCanvas().elapsedFrameCount++
     //if enough time has elapsed draw the next frame
     if(getCanvas().elapsed > getCanvas().fpsInterval){
         //get ready for next frame by setting then = now, also adjust for fpsInterval not being multiple of
@@ -21,18 +28,30 @@ function animationLoop(){
         if(getCanvas().videoContainer !== undefined && getCanvas().videoContainer.ready){
             //background video
             getCanvas().ctx.drawImage(getCanvas().videoContainer.video,0,0,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
-            //layers
+            //loop through all layers
             getCanvas().layers.forEach(layer => {
-                //image layers
-                if(layer.constructor.name === "ImageLayer"){
-                    //add more attributes
-                    getCanvas().ctx.drawImage(layer.currentContent.contentObj,0,0,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
-                }
-                /*
-                else if(layer.constructor.name === ""){
-                }
-                */
+                //draw content from each layer
+                layer.currentContent.draw(getCanvas().ctx,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
             })
+        }
+        if(getCanvas().drawFps){
+            let sinceStart = getCanvas().now - getCanvas().startTime
+            //console.log(getCanvas().now, getCanvas().startTime, getCanvas().frameCount)
+            //console.log(sinceStart)
+            let currentFps = Math.round(1000 / (sinceStart / ++getCanvas().frameCount) * 100) / 100
+            //draw pfs on canvas
+            getCanvas().ctx.font = "16px Arial"
+            getCanvas().ctx.strokeStyle = "grey"
+            getCanvas().ctx.fillStyle  = "rgba(190,190,190,0.8)"
+            getCanvas().ctx.fillRect(10,10,200,130)
+            getCanvas().ctx.strokeStyle = "black"
+            getCanvas().ctx.fillStyle  = "black"
+            getCanvas().ctx.fillText(getDebugString("Fps",formatFraction(currentFps,getCanvas().fps)),20,30)
+            getCanvas().ctx.fillText(getDebugString("Start time",`${sinceStart/1000}sec`),20,50)
+            getCanvas().ctx.fillText(getDebugString("Drawn frame count",`${getCanvas().frameCount}`),20,70)
+            getCanvas().ctx.fillText(getDebugString("Total frame count",`${getCanvas().elapsedFrameCount}`),20,90)
+            getCanvas().ctx.fillText(getDebugString("Elapsed",`${getCanvas().elapsed}`),20,110)
+            getCanvas().ctx.fillText(getDebugString("Then",`${ getCanvas().then}`),20,130)
         }
     }
     /*
@@ -57,6 +76,8 @@ export class Canvas{
         this.then = 0
         this.elapsed = 0
         this.drawFps = false
+        this.frameCount = 0
+        this.elapsedFrameCount = 0
         this.startAnimationtest = false
         this.canvasElement = document.createElement("canvas")
         this.canvasElement.width = window.innerWidth
@@ -67,6 +88,8 @@ export class Canvas{
         window.addEventListener('resize',()=>{
             this.canvasElement.height = window.innerHeight
             this.canvasElement.width = window.innerWidth
+            this.#canvasSizeUpdate()
+            //request new frame
         })
     }
     async #waitTillLoadedAsync(){
@@ -85,32 +108,83 @@ export class Canvas{
         })
         this.backgroundVideo.src = contentPath
     }
+    //
+    getLayer(pos){
+        if(pos === undefined || pos === null){
+            return null
+        }
+        if(typeof pos !== 'number'){
+            return null
+        }
+        if(this.layers.length <= pos){
+            return null
+        }
+        return this.layers[pos]
+    }
+    //
     getLayers(){
         return this.layers.map((layer)=>{return layer.getLayer()})
     }
     #addLayer(layer){
         this.layers.push(layer)
     }
-    addImageLayerFromList(listOfLayers, timeInterval = 2){
-        if(Array.isArray(listOfLayers)){
-            if(listOfLayers.length !== 0){
-                //["image1.png","image2.png"]
-                if(typeof listOfLayers[0] === 'string' || listOfLayers[0] instanceof String){
-                    const newLayer = new ImageLayer()
-                    listOfLayers.forEach(element => {
-                        newLayer.addLayerItem(element,timeInterval)
-                    })
-                    this.#addLayer(newLayer)
-                }
-                //[{path:"./image1.png",timeInterval: 30},{path:"./image2.png",timeInterval: 60}]
-                else if(Object.keys(listOfLayers[0]).includes("path") && Object.keys(listOfLayers[0]).includes("timeInterval")){
-                    const newLayer = new ImageLayer()
-                    listOfLayers.forEach(element => {
-                        newLayer.addLayerItem(element.path,element.timeInterval)
-                    })
-                    this.#addLayer(newLayer)
-                }
+    createLayer(layerData = null){
+        const newLayer = new Layer()
+        let validInput = true
+        let foundValidType = false
+        if(layerData === undefined){
+            validInput = false
+        }
+        if(layerData === null && validInput){
+            validInput = false
+        }
+        if(Array.isArray(layerData) && typeof layerData === 'object'){
+            foundValidType = true
+        }
+        else if(typeof layerData === 'object'){
+            foundValidType = true
+        }
+        else if(typeof layerData === 'string'){
+            foundValidType = true
+        }
+        if(validInput && foundValidType){
+            this.#addObjectToLayer(newLayer,layerData)
+        }
+        this.#addLayer(newLayer)
+    }
+    #addObjectToLayer(layerObj, layerData){
+        //check if data is string, obj or list. List can contain strings or objs
+        if(Array.isArray(layerData) && typeof layerData === 'object'){
+            if(layerData.length !== 0){
+                layerData.forEach((content)=>{
+                    //obj
+                    if(typeof content === 'object'){
+                        content.contentType = getTypeOfFileFromPath(content.path)
+                        layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),content))
+                    }
+                    //string
+                    else if(typeof content === 'string' || content instanceof String){
+                        layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),{path:content,contentType:getTypeOfFileFromPath(content)}))
+                    }
+                })
             }
+        }
+        //check for layer config object
+        //obj
+        if(typeof layerData === 'object'){
+            let contentType
+            if(layerData.contentType !== undefined){
+                contentType = layerData.contentType
+            }
+            else{
+                contentType = getTypeOfFileFromPath(layerData.path)
+            }
+            layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),{path:layerData.path,contentType:contentType,timer:layerData.timer}))
+        }
+        //string
+        if(typeof layerData === 'string' || layerData instanceof String){
+            //check file type
+            layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),{path:layerData,contentType:getTypeOfFileFromPath(layerData)}))
         }
     }
     removeLayerContent(layer,content){
@@ -118,6 +192,9 @@ export class Canvas{
     }
     stop(){
         this.startAnimationtest = false
+        this.layers.forEach((layer)=>{
+            layer.stop()
+        })
     }
     async startAsync(){
         await this.#waitTillLoadedAsync()
@@ -127,50 +204,30 @@ export class Canvas{
             layer.start()
         })
         this.then = Date.now()
+        this.frameCount = 0
+        this.elapsedFrameCount = 0
+        this.startTime = this.then
         this.startAnimationtest = true
         //
         animationLoop()
     }
-    //doesnt work 'maximum call stack size exceeded'
-    #animationLoop(){
-        //check if the animation loop needs to be stoped
-        if(!this.startAnimationtest){
-            return
-        }
-        //calc elapsed time since last loop
-        this.now = Date.now()
-        this.elapsed = this.now - this.then
-        //if enough time has elapsed draw the next frame
-        console.log(this.elapsed > this.fpsInterval)
-        if(this.elapsed > this.fpsInterval){
-            //get ready for next frame by setting then = now, also adjust for fpsInterval not being multiple of
-            this.then = this.now - (this.elapsed % this.fpsInterval)
-             //clear canvas. not always needed but may fix bad pixels form previous video so clear to be safe
-            this.ctx.clearRect(0,0,this.canvasElement.width,this.canvasElement.height)
-            //only draw if loaded and ready
-            if(this.videoContainer !== undefined && this.videoContainer.ready){
-                //background video
-                this.ctx.drawImage(this.videoContainer.video,0,0,this.canvasElement.width,this.canvasElement.height)
-                //layers
-                this.layers.forEach(layer => {
-                    //image layers
-                    if(layer.constructor.name === "ImageLayer"){
-                        //add more attributes
-                        this.ctx.drawImage(layer.currentContent.contentObj,0,0,this.canvasElement.width,this.canvasElement.height)
-                    }
-                    /*
-                    else if(layer.constructor.name === ""){
-                    }
-                    */
-                })
-            }
-        }
-        /*
-        if(this.drawFps){
-            //draw pfs on canvas
-        }
-        */
-        requestAnimationFrame(animationLoop)
+    #canvasSizeUpdate(){
+        this.layers.forEach((layer)=>{
+            layer.content.forEach((content)=>{
+                if(content.height.isPercent){
+                    content.height.updateSize(this.canvasElement.height)
+                }
+                if(content.width.isPercent){
+                    content.width.updateSize(this.canvasElement.width)
+                }
+                if(content.x.isPercent){
+                    content.x.updateAxis(this.canvasElement.width)
+                }
+                if(content.y.isPercent){
+                    content.y.updateAxis(this.canvasElement.height)
+                }
+            })
+        })
     }
 }
 export default Canvas
