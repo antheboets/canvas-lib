@@ -1,4 +1,6 @@
 import ImageContent from './ImageContent.js'
+import VideoContent from './VideoContent.js'
+
 export class Layer{
     #mode
     #timeoutId
@@ -154,8 +156,15 @@ export class Layer{
         }
         this.content.push(newContent)
     }
-    #addVideoContent(){
-
+    #addVideoContent(obj){
+        const newContent = new VideoContent(obj)
+        if(Number.isInteger(obj.time)){
+            newContent.timeoutNumber = obj.time
+        }
+        if(obj.time instanceof Function){
+            newContent.timeoutFunc = obj.time
+        }
+        this.content.push(newContent)
     }
 }
 export default Layer
