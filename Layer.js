@@ -1,3 +1,4 @@
+import ImageContent from './ImageContent.js'
 export class Layer{
     #mode
     #timeoutId
