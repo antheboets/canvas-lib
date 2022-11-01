@@ -1,4 +1,3 @@
-
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
 import {getTypeOfFileFromPath,formatFraction,mergeTwoObjects,convertPercent} from './helper.js'
