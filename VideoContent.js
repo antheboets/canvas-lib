@@ -2,7 +2,7 @@ import Content from "./Content.js"
 import {getCanvas} from './CanvasSingleton.js'
 
 
-export class VideoContainer extends Content{
+export class VideoContent extends Content{
     constructor(options){
         super(options)
         const object = document.createElement('video')
@@ -26,4 +26,4 @@ export class VideoContainer extends Content{
         }
     }
 }
-export default VideoContainer
+export default VideoContent
