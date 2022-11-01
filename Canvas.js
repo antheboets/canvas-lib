@@ -53,6 +53,11 @@ function animationLoop(){
             getCanvas().ctx.fillText(getDebugString("Then",`${ getCanvas().then}`),20,130)
         }
     }
+    /*
+    if(getCanvas().drawFps){
+        //draw pfs on canvas
+    }
+    */
     window.requestAnimationFrame(animationLoop)
 }
 
@@ -68,7 +73,6 @@ export class Canvas{
         this.fps = 60
         this.fpsInterval = 1000 / this.fps
         this.then = 0
-        this.startTime = 0
         this.elapsed = 0
         this.drawFps = false
         this.frameCount = 0
