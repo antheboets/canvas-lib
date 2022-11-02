@@ -55,3 +55,4 @@ export class Loaded2dContent extends Content {
          return this.y.getCoordinate
      }
 }
+export default Loaded2dContent
