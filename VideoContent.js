@@ -1,8 +1,8 @@
-import Content from "./Content.js"
+import Loaded2dContent from "./Loaded2dContent.js"
 import {getCanvas} from './CanvasSingleton.js'
 
 
-export class VideoContent extends Content{
+export class VideoContent extends Loaded2dContent{
     constructor(options){
         super(options)
         const object = document.createElement('video')
