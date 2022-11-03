@@ -91,7 +91,6 @@ export class Canvas{
         }
         return this.layers[pos]
     }
-    //
     getLayers(){
         return this.layers.map((layer)=>{return layer.getLayer()})
     }
