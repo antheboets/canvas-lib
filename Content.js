@@ -1,7 +1,3 @@
-import getCanvas from './CanvasSingleton.js'
-import AxisCoordinate from './AxisCoordinate.js'
-import Size from './Size.js'
-
 const DefaultTimeoutTime = (2 * 1000) + 978
 
 export class Content{
@@ -21,5 +17,8 @@ export class Content{
         }
         return DefaultTimeoutTime
     }
+    start(){}
+    stop(){}
+    draw(ctx){}
 }
 export default Content
