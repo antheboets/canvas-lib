@@ -109,6 +109,7 @@ export class Layer{
         if(this.#mode === 'timer'){
             this.#startTimer()
         }
+        this.currentContent.start()
     }
     #startTimer(){
         if(!this.timerActive){
@@ -130,6 +131,7 @@ export class Layer{
         if(this.#mode === 'timer'){
             this.#stopTimer()
         }
+        this.currentContent.stop()
     }
     addContentFormObj(obj){
         switch(obj.contentType){
