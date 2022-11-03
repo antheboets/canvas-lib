@@ -25,6 +25,7 @@ export class VideoContent extends Loaded2dContent{
         //super(videoContainer,loadPromise,options)
     }
     draw(ctx){
+        //only draw if loaded and ready
         if(this.videoContainer !== undefined && this.videoContainer.ready){
             ctx.drawImage(this.videoContainer.video,this.getXPos,this.getYPos,this.getWidth,this.getHeight)
         }
