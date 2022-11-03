@@ -1,6 +1,6 @@
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
-import {getTypeOfFileFromPath,formatFraction,mergeTwoObjects,convertPercent} from './helper.js'
+import {getTypeOfFileFromPath,formatFraction,mergeTwoObjects} from './helper.js'
 import {ContentFactory} from './Factory.js'
 
 function getDebugString(name = "",value=""){
@@ -23,20 +23,13 @@ function animationLoop(){
         getCanvas().then = getCanvas().now - (getCanvas().elapsed % getCanvas().fpsInterval)
          //clear canvas. not always needed but may fix bad pixels form previous video so clear to be safe
         getCanvas().ctx.clearRect(0,0,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
-        //only draw if loaded and ready
-        if(getCanvas().videoContainer !== undefined && getCanvas().videoContainer.ready){
-            //background video
-            getCanvas().ctx.drawImage(getCanvas().videoContainer.video,0,0,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
-            //loop through all layers
-            getCanvas().layers.forEach(layer => {
-                //draw content from each layer
-                layer.currentContent.draw(getCanvas().ctx,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
-            })
-        }
+        //loop through all layers
+        getCanvas().layers.forEach(layer => {
+            //draw content from each layer
+            layer.currentContent.draw(getCanvas().ctx,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
+        })
         if(getCanvas().drawFps){
             let sinceStart = getCanvas().now - getCanvas().startTime
-            //console.log(getCanvas().now, getCanvas().startTime, getCanvas().frameCount)
-            //console.log(sinceStart)
             let currentFps = Math.round(1000 / (sinceStart / ++getCanvas().frameCount) * 100) / 100
             //draw pfs on canvas
             getCanvas().ctx.font = "16px Arial"
@@ -53,22 +46,12 @@ function animationLoop(){
             getCanvas().ctx.fillText(getDebugString("Then",`${ getCanvas().then}`),20,130)
         }
     }
-    /*
-    if(getCanvas().drawFps){
-        //draw pfs on canvas
-    }
-    */
     window.requestAnimationFrame(animationLoop)
 }
 
 export class Canvas{
     constructor(){
         this.layers = []
-        this.backgroundVideoLoadedPromise = null
-        this.backgroundVideo = document.createElement('video')
-        this.backgroundVideo.muted = true
-        this.backgroundVideo.autoplay = true
-        this.backgroundVideo.loop = true
         this.now = 0
         this.fps = 60
         this.fpsInterval = 1000 / this.fps
@@ -82,7 +65,6 @@ export class Canvas{
         this.canvasElement.width = window.innerWidth
         this.canvasElement.height = window.innerHeight
         this.ctx = this.canvasElement.getContext("2d")
-        this.videoContainer = {video:this.backgroundVideo,ready:false,scale:Math.min(this.canvasElement.width / this.backgroundVideo.width,this.canvasElement.height / this.backgroundVideo.height)}
         document.body.appendChild(this.canvasElement)
         window.addEventListener('resize',()=>{
             this.canvasElement.height = window.innerHeight
@@ -95,19 +77,8 @@ export class Canvas{
         const promiseList = this.layers.map(layer => {
             return Promise.all(layer.getOnloadPromisesArray())
         })
-        promiseList.push(this.backgroundVideoLoadedPromise)
         await Promise.all(promiseList)
     }
-    setBackgroundVideo(contentPath){
-        //check if path has content
-        this.backgroundVideoLoadedPromise = new Promise((resolve, reject)=>{
-            this.backgroundVideo.oncanplay = ()=>{
-                resolve()
-            }
-        })
-        this.backgroundVideo.src = contentPath
-    }
-    //
     getLayer(pos){
         if(pos === undefined || pos === null){
             return null
@@ -120,7 +91,6 @@ export class Canvas{
         }
         return this.layers[pos]
     }
-    //
     getLayers(){
         return this.layers.map((layer)=>{return layer.getLayer()})
     }
@@ -197,8 +167,6 @@ export class Canvas{
     }
     async startAsync(){
         await this.#waitTillLoadedAsync()
-        this.videoContainer.ready = true
-        this.videoContainer.video.play()
         this.layers.forEach((layer)=>{
             layer.start()
         })
@@ -207,7 +175,6 @@ export class Canvas{
         this.elapsedFrameCount = 0
         this.startTime = this.then
         this.startAnimationtest = true
-        //
         animationLoop()
     }
     #canvasSizeUpdate(){
