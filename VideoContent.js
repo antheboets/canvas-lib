@@ -4,12 +4,11 @@ import {getCanvas} from './CanvasSingleton.js'
 
 export class VideoContent extends Loaded2dContent{
     constructor(options){
-        super(options)
         const object = document.createElement('video')
         object.muted = true
         object.autoplay = true
         object.loop = true
-        this.loadPromise = new Promise((resolve, reject)=>{
+        super(options,(resolve, reject)=>{
             object.oncanplay = ()=>{
                 this.height.setNativeSize = object.height
                 this.width.setNativeSize = object.width
@@ -17,12 +16,27 @@ export class VideoContent extends Loaded2dContent{
             }
         })
         object.src = options.path
-        this.videoContainer = {video:object,ready:false,scale:Math.min(getCanvas().canvasElement.width / this.getWidth,getCanvas().canvasElement.height / this.getHeight)}
+        this.videoContainer = {
+            video:object,
+            ready:false,
+            scale:Infinity
+            //scale:Math.min(getCanvas().canvasElement.width / this.getWidth,getCanvas().canvasElement.height / this.getHeight)
+        }
         //super(videoContainer,loadPromise,options)
     }
     draw(ctx){
         if(this.videoContainer !== undefined && this.videoContainer.ready){
             ctx.drawImage(this.videoContainer.video,this.getXPos,this.getYPos,this.getWidth,this.getHeight)
+        }
+    }
+    start(){
+        this.videoContainer.ready = true
+        this.videoContainer.video.play()
+    }
+    stop(){
+        this.videoContainer.pause()
+        if(true){
+            this.videoContainer.currentTime = 0
         }
     }
 }
