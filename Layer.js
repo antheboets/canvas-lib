@@ -146,17 +146,7 @@ export class Layer{
         }
     }
     #addImageContent(obj){
-        const image = new Image()
-        image.src = obj.path
-        let loadedPromise = new Promise((resolve, reject)=>{
-            image.onload = ()=>{
-                //add native size
-                newContent.width.setNativeSize = image.width
-                newContent.height.setNativeSize  = image.height
-                resolve()
-            }
-        })
-        const newContent = new ImageContent(image,loadedPromise,obj)
+        const newContent = new ImageContent(obj)
         if(Number.isInteger(obj.time)){
             newContent.timeoutNumber = obj.time
         }
