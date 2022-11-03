@@ -30,8 +30,6 @@ function animationLoop(){
         })
         if(getCanvas().drawFps){
             let sinceStart = getCanvas().now - getCanvas().startTime
-            //console.log(getCanvas().now, getCanvas().startTime, getCanvas().frameCount)
-            //console.log(sinceStart)
             let currentFps = Math.round(1000 / (sinceStart / ++getCanvas().frameCount) * 100) / 100
             //draw pfs on canvas
             getCanvas().ctx.font = "16px Arial"
