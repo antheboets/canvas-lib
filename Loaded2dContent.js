@@ -14,45 +14,45 @@ export class Loaded2dContent extends Content {
     }
     set setHeight(height){
         this.height.setSize = height
-     }
-     get getHeight(){
-         return this.height.getSize
-     }
-     set setWidth(width){
-        this.width.setSize = width
-     }
-     get getWidth(){
-         return this.width.getSize
-     }
-     set setHeightMode(heightMode){
-         this.height.setMode = heightMode
-     }
-     get getHeightMode(){
-         return this.height.getMode
-     }
-     set setWidthMode(widthMode){
-         this.width.setMode = widthMode
-     }
-     get getWidthMode(){
-         return this.width.getMode
-     }
-     get getNativeHeight(){
-         return this.height.getNativeSize
-     }
-     get getNativeWidth(){
-         return this.width.getNativeSize
-     }
-     set setXPos(xPos){
-         this.x.setCoordinate(xPos)
-     }
-     get getXPos(){
-         return this.x.getCoordinate
-     }
-     set setYPos(yPos){
-         this.y.setCoordinate(yPos)
-     }
-     get getYPos(){
-         return this.y.getCoordinate
-     }
+    }
+    get getHeight(){
+        return this.height.getSize
+    }
+    set setWidth(width){
+    this.width.setSize = width
+    }
+    get getWidth(){
+        return this.width.getSize
+    }
+    set setHeightMode(heightMode){
+        this.height.setMode = heightMode
+    }
+    get getHeightMode(){
+        return this.height.getMode
+    }
+    set setWidthMode(widthMode){
+        this.width.setMode = widthMode
+    }
+    get getWidthMode(){
+        return this.width.getMode
+    }
+    get getNativeHeight(){
+        return this.height.getNativeSize
+    }
+    get getNativeWidth(){
+        return this.width.getNativeSize
+    }
+    set setXPos(xPos){
+        this.x.setCoordinate(xPos)
+    }
+    get getXPos(){
+        return this.x.getCoordinate
+    }
+    set setYPos(yPos){
+        this.y.setCoordinate(yPos)
+    }
+    get getYPos(){
+        return this.y.getCoordinate
+    }
 }
 export default Loaded2dContent
