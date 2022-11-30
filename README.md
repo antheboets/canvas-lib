@@ -19,9 +19,18 @@ const canvas = getCanvas()
 ```
 Add content.
 ```javascript
-canvas.setBackgroundVideo("./background.mp4")
-canvas.addImageLayerFromList(["./layer1.png","./layer2.png","./layer3.png"])
-canvas.addImageLayerFromList(["./layer11.png","./layer12.png"])
+//importing module
+import {getCanvas,BackgroundVideo} from 'canvaslib'
+//getten default background video object
+const video = BackgroundVideo()
+//setting path of the content
+video.path = "./background.mp4"
+//adding background video first
+canvas.createLayer(video)
+//adding first layer with images
+canvas.createLayer(["./layer1.png","./layer2.png","./layer3.png"])
+//adding second layer with images
+canvas.createLayer(["./layer11.png","./layer12.png"])
 ```
 Starting the animation after waiting till all the content has loaded.
 ```javascript
