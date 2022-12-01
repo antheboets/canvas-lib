@@ -54,5 +54,13 @@ export class Loaded2dContent extends Content {
     get getYPos(){
         return this.y.getCoordinate
     }
+    isClicked(clickX,clickY){
+        let leftUnderX = this.getXPos + this.getWidth
+        let leftUnderY = this.getYPos + this.getHeight
+        if(this.getXPos < clickX && clickX < leftUnderX && this.getYPos < clickY && clickY < leftUnderY){
+            return true
+        }
+        return false
+    }
 }
 export default Loaded2dContent

@@ -9,7 +9,8 @@ export function ContentFactory(){
         heightMode:"canvasSize",
         width:0,
         widthMode:"canvasSize",
-        time:0
+        time:0,
+        click: false
     }
 }
 //config/template
@@ -32,7 +33,8 @@ export function BackgroundVideo(){
         time:0,
         loop:true,
         autoplay:true,
-        muted:true
+        muted:true,
+        click: false
     }
 }
 export function Video(){
@@ -48,6 +50,7 @@ export function Video(){
         time:0,
         loop:true,
         autoplay:true,
-        muted:true
+        muted:true,
+        click: false
     }
 }

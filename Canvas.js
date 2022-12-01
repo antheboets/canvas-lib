@@ -2,6 +2,7 @@ import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
 import {getTypeOfFileFromPath,formatFraction,mergeTwoObjects} from './helper.js'
 import {ContentFactory} from './Factory.js'
+import Content from './Content.js'
 
 function getDebugString(name = "",value=""){
     return `${name}: ${value}`
@@ -65,12 +66,22 @@ export class Canvas{
         this.canvasElement.width = window.innerWidth
         this.canvasElement.height = window.innerHeight
         this.ctx = this.canvasElement.getContext("2d")
+        this.clickableList = []
+        Content.clickableManager = {addToList:(content)=>{this.clickableList.push(content)},removeFromList:(content)=>{this.clickableList.splice(this.clickableList.indexOf(content),1)}}
         document.body.appendChild(this.canvasElement)
         window.addEventListener('resize',()=>{
             this.canvasElement.height = window.innerHeight
             this.canvasElement.width = window.innerWidth
             this.#canvasSizeUpdate()
             //request new frame
+        })   
+        this.canvasElement.addEventListener('click',(e)=>{
+            e.preventDefault
+            this.clickableList.forEach((content)=>{
+                if(content.isClicked(e.x,e.y)){
+                    content.click()
+                }
+            })
         })
     }
     async #waitTillLoadedAsync(){
