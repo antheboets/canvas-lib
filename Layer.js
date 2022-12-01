@@ -35,6 +35,19 @@ export class Layer{
     previous(){
         this.#tick(false)
     }
+    #changeContent(newContent){
+        if(this.currentContent !== null){
+            if(this.#mode === 'timer'){
+                this.#stopTimer()
+            }
+            this.currentContent.stop()
+        }
+        this.currentContent = newContent
+        if(this.#mode === 'timer'){
+            this.#startTimer()
+        }
+        this.currentContent.start()
+    }
     setContentPos(pos = 0){
         if(pos === undefined || pos === null){
             return
@@ -45,34 +58,28 @@ export class Layer{
         if(pos >= this.content.length){
             return
         }
-        if(this.#mode === 'timer'){
-            this.#stopTimer()
-        }
         this.currentPos = pos
-        this.currentContent = this.content[this.currentPos]
-        if(this.#mode === 'timer'){
-            this.#startTimer()
-        }
+        this.#changeContent(this.content[this.currentPos])
     }
     #tick(tickHiger = true){
         if(tickHiger){
             if(this.currentPos < this.content.length - 1){
                 this.currentPos++
-                this.currentContent = this.content[this.currentPos]
+                this.#changeContent(this.content[this.currentPos])
             }
             else if(this.loopThroughContent){
                 this.currentPos = 0
-                this.currentContent = this.content[0]
+                this.#changeContent(this.content[0])
             }
         }
         else{
             if(this.currentPos > 0){
                 this.currentPos--
-                this.currentContent = this.content[this.currentPos]
+                this.#changeContent(this.content[this.currentPos])
             }
             else if(this.loopThroughContent){
                 this.currentPos = this.content.length - 1
-                this.currentContent = this.content[0]
+                this.#changeContent(this.content[0])
             }
         }
     }
@@ -91,10 +98,10 @@ export class Layer{
     }
     #checkPos(){
         if(this.content.length === 1){
-            this.currentContent = this.content[0]
+            this.#changeContent(this.content[0])
         }
         if(this.currentContent === null){
-            this.currentContent = this.content[0]
+            this.#changeContent(this.content[0])
         }
     }
     start(){
@@ -102,6 +109,7 @@ export class Layer{
         if(this.#mode === 'timer'){
             this.#startTimer()
         }
+        this.currentContent.start()
     }
     #startTimer(){
         if(!this.timerActive){
@@ -123,6 +131,7 @@ export class Layer{
         if(this.#mode === 'timer'){
             this.#stopTimer()
         }
+        this.currentContent.stop()
     }
     addContentFormObj(obj){
         switch(obj.contentType){
@@ -137,17 +146,7 @@ export class Layer{
         }
     }
     #addImageContent(obj){
-        const image = new Image()
-        image.src = obj.path
-        let loadedPromise = new Promise((resolve, reject)=>{
-            image.onload = ()=>{
-                //add native size
-                newContent.width.setNativeSize = image.width
-                newContent.height.setNativeSize  = image.height
-                resolve()
-            }
-        })
-        const newContent = new ImageContent(image,loadedPromise,obj)
+        const newContent = new ImageContent({...obj})
         if(Number.isInteger(obj.time)){
             newContent.timeoutNumber = obj.time
         }
@@ -157,7 +156,7 @@ export class Layer{
         this.content.push(newContent)
     }
     #addVideoContent(obj){
-        const newContent = new VideoContent(obj)
+        const newContent = new VideoContent({...obj})
         if(Number.isInteger(obj.time)){
             newContent.timeoutNumber = obj.time
         }
