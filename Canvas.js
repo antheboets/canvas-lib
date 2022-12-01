@@ -159,7 +159,7 @@ export class Canvas{
             else{
                 contentType = getTypeOfFileFromPath(layerData.path)
             }
-            layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),{path:layerData.path,contentType:contentType,timer:layerData.timer}))
+            layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),layerData))
         }
         //string
         if(typeof layerData === 'string' || layerData instanceof String){

@@ -4,12 +4,12 @@ import Size from './Size.js'
 import getCanvas from './CanvasSingleton.js'
 
 export class Loaded2dContent extends Content {
-    constructor(options,loadPromise){
-        super()
-        this.x = new AxisCoordinate(options.x,()=>{return getCanvas().canvasElement.width})
-        this.y = new AxisCoordinate(options.y,()=>{return getCanvas().canvasElement.height})
-        this.height = new Size(options.height,options.heightMode,()=>{return getCanvas().canvasElement.height})
-        this.width = new Size(options.width,options.widthMode,()=>{return getCanvas().canvasElement.width})
+    constructor({x,y,height,heightMode,width,widthMode,loadPromise}){
+        super({...arguments[0]})
+        this.x = new AxisCoordinate(x,()=>{return getCanvas().canvasElement.width})
+        this.y = new AxisCoordinate(y,()=>{return getCanvas().canvasElement.height})
+        this.height = new Size(height,heightMode,()=>{return getCanvas().canvasElement.height})
+        this.width = new Size(width,widthMode,()=>{return getCanvas().canvasElement.width})
         this.loadedPromise = new Promise(loadPromise)
     }
     set setHeight(height){
