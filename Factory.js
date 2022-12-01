@@ -6,9 +6,9 @@ export function ContentFactory(){
         x:0,
         y:0,
         height:0,
-        heightMode:"canvasSize",
+        heightMode:"native",
         width:0,
-        widthMode:"canvasSize",
+        widthMode:"native",
         time:0,
         click: false
     }
@@ -44,9 +44,9 @@ export function Video(){
         x:0,
         y:0,
         height:0,
-        heightMode:"canvasSize",
+        heightMode:"native",
         width:0,
-        widthMode:"canvasSize",
+        widthMode:"native",
         time:0,
         loop:true,
         autoplay:true,
