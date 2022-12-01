@@ -146,7 +146,7 @@ export class Layer{
         }
     }
     #addImageContent(obj){
-        const newContent = new ImageContent(obj)
+        const newContent = new ImageContent({...obj})
         if(Number.isInteger(obj.time)){
             newContent.timeoutNumber = obj.time
         }
@@ -156,7 +156,7 @@ export class Layer{
         this.content.push(newContent)
     }
     #addVideoContent(obj){
-        const newContent = new VideoContent(obj)
+        const newContent = new VideoContent({...obj})
         if(Number.isInteger(obj.time)){
             newContent.timeoutNumber = obj.time
         }

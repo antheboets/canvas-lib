@@ -1,21 +1,20 @@
 import Loaded2dContent from "./Loaded2dContent.js"
-import {getCanvas} from './CanvasSingleton.js'
-
 
 export class VideoContent extends Loaded2dContent{
-    constructor(options){
+    constructor({path}){
         const object = document.createElement('video')
         object.muted = true
         object.autoplay = true
         object.loop = true
-        super(options,(resolve, reject)=>{
+        arguments[0].loadPromise = (resolve, reject)=>{
             object.oncanplay = ()=>{
                 this.height.setNativeSize = object.height
                 this.width.setNativeSize = object.width
                 resolve()
             }
-        })
-        object.src = options.path
+        }
+        super({...arguments[0]})
+        object.src = path
         this.videoContainer = {
             video:object,
             ready:false,
