@@ -1,3 +1,5 @@
 export {Canvas} from './Canvas.js'
 export {getCanvas} from './CanvasSingleton.js'
 export {LayerFactory,ContentFactory,BackgroundVideo,Video} from './Factory.js'
+export {GameObject} from './GameObject.js'
+export {HitBox} from './Hitbox.js'
