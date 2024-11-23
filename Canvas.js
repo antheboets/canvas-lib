@@ -1,6 +1,6 @@
 import Layer from './Layer.js'
 import getCanvas from './CanvasSingleton.js'
-import {getTypeOfFileFromPath,formatFraction,mergeTwoObjects} from './helper.js'
+import {getTypeOfFileFromPath,formatFraction,mergeTwoObjects, collide} from './helper.js'
 import {ContentFactory} from './Factory.js'
 import Content from './Content.js'
 
@@ -21,6 +21,9 @@ function animationLoop(){
     //if enough time has elapsed draw the next frame
     if(getCanvas().elapsed > getCanvas().fpsInterval){
         //get ready for next frame by setting then = now, also adjust for fpsInterval not being multiple of
+
+        getCanvas().checkColision()
+
         getCanvas().then = getCanvas().now - (getCanvas().elapsed % getCanvas().fpsInterval)
          //clear canvas. not always needed but may fix bad pixels form previous video so clear to be safe
         getCanvas().ctx.clearRect(0,0,getCanvas().canvasElement.width,getCanvas().canvasElement.height)
@@ -62,6 +65,7 @@ export class Canvas{
         this.frameCount = 0
         this.elapsedFrameCount = 0
         this.startAnimationtest = false
+        this.colisionItemsToCheck = null
         this.canvasElement = document.createElement("canvas")
         this.canvasElement.width = window.innerWidth
         this.canvasElement.height = window.innerHeight
@@ -165,6 +169,13 @@ export class Canvas{
         if(typeof layerData === 'string' || layerData instanceof String){
             //check file type
             layerObj.addContentFormObj(mergeTwoObjects(ContentFactory(),{path:layerData,contentType:getTypeOfFileFromPath(layerData)}))
+        }
+    }
+    checkColision(){
+        for(gameObject in this.colisionItemsToCheck){
+            if(collide(this.hero, gameObject.hitbox)){
+                this.stop()
+            }
         }
     }
     removeLayerContent(layer,content){
