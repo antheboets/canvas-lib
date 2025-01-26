@@ -37,3 +37,9 @@ Starting the animation after waiting till all the content has loaded.
 await canvas.startAsync()
 ```
 There is a demo project [canvas-lib-demo](https://github.com/antheboets/html-canvas-lib-demo), that you can use to see how the module works. To use this module you need a JavaScript bundler. You can find more information in the demo project on how to use it.
+# documantatio
+## Canvas Object
+### methodes
+```javascript
+canvas.createLayer()
+```
