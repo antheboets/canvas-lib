@@ -135,6 +135,7 @@ export class Canvas{
             this.#addObjectToLayer(newLayer,layerData)
         }
         this.#addLayer(newLayer)
+        return newLayer
     }
     #addObjectToLayer(layerObj, layerData){
         //check if data is string, obj or list. List can contain strings or objs
