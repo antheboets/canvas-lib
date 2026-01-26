@@ -14,6 +14,12 @@ export class Content{
             this.#clickable = false
             this.clickaction = clickAction
         }
+        if(Number.isInteger(obj.time)){
+            this.timeoutNumber = obj.time
+        }
+        if(obj.time instanceof Function){
+            this.timeoutFunc = obj.time
+        }
     }
     GetTimeoutTime(){
         if(this.timeoutFunc !== null){
