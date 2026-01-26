@@ -29,6 +29,12 @@ export class VideoContent extends Loaded2dContent{
             ctx.drawImage(this.videoContainer.video,this.getXPos,this.getYPos,this.getWidth,this.getHeight)
         }
     }
+    drawMulti(ctx,x,y){
+        //only draw if loaded and ready
+        if(this.videoContainer !== undefined && this.videoContainer.ready){
+            ctx.drawImage(this.videoContainer.video,x + this.getXPos,y + this.getYPos,this.getWidth,this.getHeight)
+        }
+    }
     start(){
         this.videoContainer.ready = true
         this.videoContainer.video.play()

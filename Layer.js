@@ -1,5 +1,8 @@
 import ImageContent from './ImageContent.js'
+import MultiPart2dContent from './MultiPart2dContent.js'
+import TextContent from './TextContent.js'
 import VideoContent from './VideoContent.js'
+import RectangleContent from './RectangleContent.js'
 
 export class Layer{
     #mode
@@ -134,34 +137,25 @@ export class Layer{
         this.currentContent.stop()
     }
     addContentFormObj(obj){
+        let newContent
         switch(obj.contentType){
             case'image':
-                this.#addImageContent(obj)
+            newContent = new ImageContent({...obj})
             break
             case 'video':
-                this.#addVideoContent(obj)
+                newContent = new VideoContent({...obj})
+            break
+            case 'multi':
+                newContent = new MultiPart2dContent({...obj})
+            break
+            case 'text':
+                newContent = new TextContent({...obj})
+            break
+            case 'rectangle':
+                newContent = new RectangleContent({...obj})
             break
             default:
             break
-        }
-    }
-    #addImageContent(obj){
-        const newContent = new ImageContent({...obj})
-        if(Number.isInteger(obj.time)){
-            newContent.timeoutNumber = obj.time
-        }
-        if(obj.time instanceof Function){
-            newContent.timeoutFunc = obj.time
-        }
-        this.content.push(newContent)
-    }
-    #addVideoContent(obj){
-        const newContent = new VideoContent({...obj})
-        if(Number.isInteger(obj.time)){
-            newContent.timeoutNumber = obj.time
-        }
-        if(obj.time instanceof Function){
-            newContent.timeoutFunc = obj.time
         }
         this.content.push(newContent)
     }
