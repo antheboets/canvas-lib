@@ -64,6 +64,13 @@ export class Canvas{
         this.elapsedFrameCount = 0
         this.startAnimationtest = false
         this.colisionItemsToCheck = null
+        this.autoResize = false
+        this.resizeEvent = ()=>{
+            this.canvasElement.height = window.innerHeight
+            this.canvasElement.width = window.innerWidth
+            this.#canvasSizeUpdate()
+            //request new frame
+        }
         this.canvasElement = document.createElement("canvas")
         this.canvasElement.width = window.innerWidth
         this.canvasElement.height = window.innerHeight
@@ -71,12 +78,6 @@ export class Canvas{
         this.clickableList = []
         Content.clickableManager = {addToList:(content)=>{this.clickableList.push(content)},removeFromList:(content)=>{this.clickableList.splice(this.clickableList.indexOf(content),1)}}
         document.body.appendChild(this.canvasElement)
-        window.addEventListener('resize',()=>{
-            this.canvasElement.height = window.innerHeight
-            this.canvasElement.width = window.innerWidth
-            this.#canvasSizeUpdate()
-            //request new frame
-        })   
         this.canvasElement.addEventListener('click',(e)=>{
             e.preventDefault
             this.clickableList.forEach((content)=>{
@@ -210,6 +211,18 @@ export class Canvas{
                 }
             })
         })
+    }
+    setResize(autoResize){
+        this.autoResize = autoResize
+        this.#updateResizeEvent()
+    }
+    #updateResizeEvent(){
+        if(this.autoResize){
+            window.addEventListener('resize',this.resizeEvent)
+        }
+        else{
+            window.removeEventListener('resize',this.resizeEvent)
+        }
     }
 }
 export default Canvas
