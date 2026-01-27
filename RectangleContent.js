@@ -8,12 +8,12 @@ export class TextContent extends TwoDContent{
     draw(ctx){
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color
-        ctx.fillRect(this.PosX,this.PosX,this.width,this.height)
+        ctx.fillRect(this.getXPos,this.getYPos,this.getWidth,this.getHeight)
     }
     drawMulti(ctx,x,y){
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color
-        ctx.fillRect(x + this.PosX,y + this.PosX,this.width,this.height)
+        ctx.fillRect(x + this.getXPos,y + this.getYPos,this.getWidth,this.getHeight)
     }
 }
 
