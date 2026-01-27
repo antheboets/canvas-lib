@@ -63,10 +63,3 @@ export function isPercent(value){
     }
     return true
 }
-export function collide(hitbox1, hitbox2){
-    
-    //if(hitbox1.topLeftX){
-
-    //}
-    return false
-}
