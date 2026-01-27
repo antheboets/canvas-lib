@@ -87,7 +87,10 @@ export class Layer{
         }
     }
     getOnloadPromisesArray(){
-        return this.content.map((item)=>{return item.getOnloadPromisesArray})
+        if(item instanceof Loaded2dContent){
+            return item.getOnloadPromisesArray
+        }
+        return null
     }
     getLayer(){
         return this.content
