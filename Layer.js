@@ -137,7 +137,6 @@ export class Layer{
         this.currentContent.stop()
     }
     addContentFormObj(obj){
-        let newContent
         switch(obj.contentType){
             case'image':
             newContent = new ImageContent({...obj})
