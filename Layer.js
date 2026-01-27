@@ -3,6 +3,7 @@ import MultiPart2dContent from './MultiPart2dContent.js'
 import TextContent from './TextContent.js'
 import VideoContent from './VideoContent.js'
 import RectangleContent from './RectangleContent.js'
+import Loaded2dContent from './Loaded2dContent.js'
 
 export class Layer{
     #mode
