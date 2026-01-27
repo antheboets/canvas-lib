@@ -158,6 +158,7 @@ export class Layer{
                 newContent = new RectangleContent({...obj})
             break
             default:
+                newContent = null
             break
         }
         this.content.push(newContent)
