@@ -17,6 +17,11 @@ export class MultiPart2dContent extends TwoDContent{
             e.drawMulti(ctx,this.getXPos, this.getYPos)
         })
     }
+    drawMulti(ctx,x,y){
+        this.contentList.forEach((e)=> {
+            e.drawMulti(ctx,x + this.getXPos,y + this.getYPos)
+        })
+    }
     addContent(content){
         contentList.push(content)
     }
