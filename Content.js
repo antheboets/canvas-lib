@@ -7,13 +7,12 @@ export class Content{
         this.timeoutFunc = null
         this.timeoutNumber = 0
         if(click){
-            this.setClickable = true
-            this.clickaction = clickAction
+            this.setClickable = true   
         }
         else{
             this.#clickable = false
-            this.clickaction = clickAction
         }
+        this.clickAction = clickAction
         /*
         if(Number.isInteger(obj.time)){
             this.timeoutNumber = obj.time
@@ -50,7 +49,7 @@ export class Content{
     }
     click(){
         if(this.#clickable){
-            return this.clickaction()
+            return this.clickAction()
         }
     }
     isClicked(clickX,clickY){
