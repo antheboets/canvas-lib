@@ -62,5 +62,13 @@ export class TwoDContent extends Content{
         }
         return false
     }
+    isBeeingDraged(x,y){
+        let leftUnderX = this.getXPos + this.getWidth
+        let leftUnderY = this.getYPos + this.getHeight
+        if(this.getXPos < x && x < leftUnderX && this.getYPos < y && y < leftUnderY){
+            return true
+        }
+        return false
+    }
 }
 export default TwoDContent

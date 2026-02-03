@@ -3,16 +3,27 @@ const DefaultTimeoutTime = (2 * 1000) + 978
 export class Content{
     static clickableManager
     #clickable
-    constructor({click,clickAction=()=>{}}){
+    static draggableManager
+    #draggable
+    #isBeeingDragged
+    constructor({clickable=false,clickAction=()=>{},draggable=false,dragAction=()=>{}}){
         this.timeoutFunc = null
         this.timeoutNumber = 0
-        if(click){
+        if(clickable){
             this.setClickable = true   
         }
         else{
             this.#clickable = false
         }
         this.clickAction = clickAction
+        if(draggable){
+            this.setDraggable = true   
+        }
+        else{
+            this.#draggable = false
+        }
+        this.dragAction = dragAction
+        this.#isBeeingDragged = false
         /*
         if(Number.isInteger(obj.time)){
             this.timeoutNumber = obj.time
@@ -47,6 +58,25 @@ export class Content{
             Content.clickableManager.removeFromList(this)
         }
     }
+    get getDraggable(){
+        return this.#draggable
+    }
+    set setDraggable(draggable){
+        if(draggable){
+            this.#draggable = draggable
+            Content.draggableManager.addToList(this)
+        }
+        else if(!draggable){
+            this.#draggable = draggable
+            Content.draggableManager.removeFromList(this)
+        }
+    }
+    get getIsBeeingDragged(){
+        return this.#isBeeingDragged
+    }
+    set setIsBeeingDragged(isBeeingDragged){
+        this.#isBeeingDragged = isBeeingDragged
+    }
     click(){
         if(this.#clickable){
             return this.clickAction()
@@ -54,6 +84,20 @@ export class Content{
     }
     isClicked(clickX,clickY){
         return false
+    }
+    isBeeingDraged(x,y){
+        return false
+    }
+    dragged(){
+        if(this.#clickable){
+            return this.clickAction()
+        }
+    }
+    dragStart(){
+        this.setIsBeeingDragged = true
+    }
+    dragStop(){
+        this.setIsBeeingDragged = false
     }
     start(){}
     stop(){}

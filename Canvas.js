@@ -76,13 +76,39 @@ export class Canvas{
         this.canvasElement.height = window.innerHeight
         this.ctx = this.canvasElement.getContext("2d")
         this.clickableList = []
+        this.draggableList = []
         Content.clickableManager = {addToList:(content)=>{this.clickableList.push(content)},removeFromList:(content)=>{this.clickableList.splice(this.clickableList.indexOf(content),1)}}
+        Content.draggableManager = {addToList:(content)=>{this.draggableList.push(content)},removeFromList:(content)=>{this.draggableList.splice(this.draggableList.indexOf(content),1)}}
         document.body.appendChild(this.canvasElement)
         this.canvasElement.addEventListener('click',(e)=>{
             e.preventDefault
             this.clickableList.forEach((content)=>{
                 if(content.isClicked(e.x,e.y)){
                     content.click()
+                }
+            })
+        })
+        this.canvasElement.addEventListener('dragstart',(e)=>{
+            e.preventDefault
+            this.draggableList.forEach((content)=>{
+                if(content.isBeeingDraged(e.x,e.y)){
+                    content.dragStart()
+                }
+            })
+        })
+        this.canvasElement.addEventListener('drag',(e)=>{
+            e.preventDefault
+            this.draggableList.forEach((content)=>{
+                if(content.getIsBeeingDragged()){
+                    content.dragged()
+                }
+            })
+        })
+        this.canvasElement.addEventListener('',(e)=>{
+            e.preventDefault
+            this.draggableList.forEach((content)=>{
+                if(content.getIsBeeingDragged()){
+                    content.dragStop()
                 }
             })
         })
