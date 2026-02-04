@@ -104,7 +104,7 @@ export class Canvas{
                 }
             })
         })
-        this.canvasElement.addEventListener('',(e)=>{
+        this.canvasElement.addEventListener('dragend',(e)=>{
             e.preventDefault
             this.draggableList.forEach((content)=>{
                 if(content.getIsBeeingDragged()){
